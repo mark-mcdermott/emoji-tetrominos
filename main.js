@@ -53,6 +53,9 @@
     ctx.font="18px Georgia";
     ctx.fillText(text,(x+0.25)*pixel,(y+0.75)*pixel);
   }
+  function drawPixel(x,y) {
+    ctx.fillRect(x*pixel,y*pixel,1*pixel,1*pixel);
+  }
   function drawBlock(coords,num) {
     for (var i=0; i<num; i++) {
       ctx.fillRect(coords[i][0]*pixel,coords[i][1]*pixel,1*pixel,1*pixel);
@@ -78,56 +81,49 @@
   // drops all pieces in array down one pixel
   function lowerBlocks() {
 
-      // check if block is already touching bottom
+    if (falling) {
+
+      // lower the block
+      for (var i=0; i<falling['coords'].length; i++) {
+        falling['coords'][i][1]++;
+      }
+
+      // check if block is touching bottom now
       var touchingFloor = false;
-      for (var j=0; j<falling['coords'].length; j++) {
-        if (falling['coords'][j][1] === 19) {
+      for (var i=0; i<falling['coords'].length && touchingFloor===false; i++) {
+        if (falling['coords'][i][1] === 19) {
           touchingFloor = true;
         }
       }
 
-      // lower the block
+      // if at floor or , add block's pixels to landed array
       if (touchingFloor) {
-        //console.log(fallingBlocks[0]);
-        for (var i=0; i<falling['coords'].num; j++) {
-          landed.push(falling['coords'][i]);
+        for (var i=0; i<falling['coords'].length; i++) {
+          var x = falling['coords'][i][0];
+          var y = falling['coords'][i][1];
+          landed[y][x] = 1;
         }
-        //fallingBlocks.pop();
-        // lower the block
+        falling = new Block['i'](0,0);
       } else {
-        for (var j=0; j<falling['coords'].length; j++) {
-          falling['coords'][j][1]++;
-        }
-      }
-  }
 
-  // drops all pieces in array down one pixel
-  /*
-  function collisionDetect() {
-
-    if (fallingBlocks.length > 1) {
-
-      // loop through every block
-      for (var i=0; i<fallingBlocks.length; i++) {
-        // check for block collision
-        var blockCollision = false;
-        for (var j=0; j<falling[i]['coords'].length; j++) {
-          //console.log(blocks[i]['coords'][j]);
-          for (var k=i+1; k<fallingBlocks.length; k++) {
-            //console.log(fallingBlocks[i]['coords'][i][0],fallingBlocks[i]['coords'][i][1]);
-            //console.log(fallingBlocks[k]['coords'][i][0],fallingBlocks[i]['coords'][i][1]);
+        // check if touching another block
+        var collision = false;
+        for (var i=0; i<falling['coords'].length; i++) {
+          var x = falling['coords'][i][0];
+          var y = falling['coords'][i][1] + 1;
+          if (landed[y][x] === 1) {
+            collision = true;
           }
 
-          // if (blocks[i]['coords'][j][1] == 19) {
-          //   touchingFloor = true;
-          // }
-        }
-
-        // lower the block
-        if (!touchingFloor) {
-          for (var j=0; j<blocks[i]['coords'].length; j++) {
-            blocks[i]['coords'][j][1]++;
+          if (collision) {
+            for (var i=0; i<falling['coords'].length; i++) {
+              var x = falling['coords'][i][0];
+              var y = falling['coords'][i][1];
+              landed[y][x] = 1;
+            }
+            falling = new Block['i'](0,0);
           }
+
         }
 
       }
@@ -135,47 +131,40 @@
     }
 
   }
-  */
 
   // clear the whole board each frame to redraw all pieces in new pos
   function clearBoard() {
     ctx.clearRect(0,0,10*pixel,20*pixel);
   }
 
+  function drawLanded() {
+    for (var i=0; i<landed.length; i++) {
+      for (var j=0; j<landed[i].length; j++) {
+        if (landed[i][j] === 1) {
+          drawPixel(j,i);
+        }
+      }
+    }
+  }
+
   var falling = new Block['i'](0,17);
-  drawBlock(falling['coords']);
+  //drawBlock(falling['coords']);
 
   function draw() {
     clearBoard();
     lowerBlocks();
-    //console.log(fallingBlocks);
-    //console.log(landed);
-    //collisionDetect();
     makeGrid();
+    drawLanded();
     drawBlock(falling['coords'],falling['num']);
   }
 
   draw();
 
-  function drawOnEvent(e)
-  {
+  function drawOnEvent(e) {
     draw();
     e.preventDefault();
-
   }
+
   document.getElementById("next").addEventListener("click", drawOnEvent);
-  // document.getElementById("next").addEventListener("click", function(e){
-  //   draw();
-  //   e.preventDefault();
-  //   frame++;
-  // });
-
-
-
-  // drawBlock(i.coords,i.numPix);
-  //ctx.fillRect(2*pixel,2*pixel,2*pixel,2*pixel);
-  // console.log(i);
-
-  // console.log(blocks);
 
 })();
