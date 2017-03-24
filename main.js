@@ -82,13 +82,10 @@
   // drops all pieces in array down one pixel
   function lowerBlocks() {
 
-    // loop through every block
-    for (var i=0; i<fallingBlocks.length; i++) {
-
       // check if block is already touching bottom
       var touchingFloor = false;
-      for (var j=0; j<fallingBlocks[i]['coords'].length; j++) {
-        if (fallingBlocks[i]['coords'][j][1] == 19) {
+      for (var j=0; j<falling['coords'].length; j++) {
+        if (falling['coords'][j][1] == 19) {
           touchingFloor = true;
         }
       }
@@ -96,21 +93,20 @@
       // lower the block
       if (touchingFloor) {
         //console.log(fallingBlocks[0]);
-        for (var i=0; i<fallingBlocks[0]['coords'].num; j++) {
-          landed.push(fallingBlocks[0]['coords'][i]);
+        for (var i=0; i<falling['coords'].num; j++) {
+          landed.push(falling['coords'][i]);
         }
         //fallingBlocks.pop();
         // lower the block
       } else {
-        for (var j=0; j<fallingBlocks[i]['coords'].length; j++) {
-          fallingBlocks[i]['coords'][j][1]++;
+        for (var j=0; j<falling['coords'].length; j++) {
+          falling['coords'][j][1]++;
         }
       }
-
-    }
   }
 
   // drops all pieces in array down one pixel
+  /*
   function collisionDetect() {
 
     if (fallingBlocks.length > 1) {
@@ -119,7 +115,7 @@
       for (var i=0; i<fallingBlocks.length; i++) {
         // check for block collision
         var blockCollision = false;
-        for (var j=0; j<fallingBlocks[i]['coords'].length; j++) {
+        for (var j=0; j<falling[i]['coords'].length; j++) {
           //console.log(blocks[i]['coords'][j]);
           for (var k=i+1; k<fallingBlocks.length; k++) {
             //console.log(fallingBlocks[i]['coords'][i][0],fallingBlocks[i]['coords'][i][1]);
@@ -131,20 +127,19 @@
           // }
         }
 
-        /*
         // lower the block
         if (!touchingFloor) {
           for (var j=0; j<blocks[i]['coords'].length; j++) {
             blocks[i]['coords'][j][1]++;
           }
         }
-        */
 
       }
 
     }
 
   }
+  */
 
   // clear the whole board each frame to redraw all pieces in new pos
   function clearBoard() {
@@ -159,7 +154,7 @@
     lowerBlocks();
     //console.log(fallingBlocks);
     console.log(landed);
-    collisionDetect();
+    //collisionDetect();
     makeGrid();
     drawBlock(falling['coords'],falling['num']);
   }
