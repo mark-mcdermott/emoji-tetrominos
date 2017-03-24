@@ -104,7 +104,8 @@
           var y = falling['coords'][i][1];
           landed[y][x] = 1;
         }
-        falling = new Block['i'](0,0);
+        //falling = new Block['i'](0,0);
+        falling = null;
       } else {
 
         // check if touching another block
@@ -122,13 +123,36 @@
               var y = falling['coords'][i][1];
               landed[y][x] = 1;
             }
-            falling = new Block['i'](0,0);
+            //falling = new Block['i'](0,0);
+            falling = null;
+            return;
           }
-
         }
-
       }
+    }
+  }
 
+  function moveSide(direction) {
+
+    if (direction === 'left') {
+      // if not at left edge, move left
+      var firstPixel = falling['coords'][0];
+      if (firstPixel[0] > 0) {
+        for (var i=0; i<falling['coords'].length; i++) {
+          falling['coords'][i][0]--;
+        }
+      }
+    }
+
+    if (direction === 'right') {
+      // if not at right edge, move right
+      var length = falling['coords'].length;
+      var lastPixel = falling['coords'][length-1];
+      if (lastPixel[0] < 9) {
+        for (var i=0; i<falling['coords'].length; i++) {
+          falling['coords'][i][0]++;
+        }
+      }
     }
 
   }
@@ -148,10 +172,27 @@
     }
   }
 
+  function spawnBlock() {
+    falling = new Block['i'](0,0);
+  }
+
   function processKeystroke(key){
 
-    if (key === 40) {
-      moveDown();
+    // console.log(key);
+
+    // move block keyboard input
+    if (falling) {
+      switch (key) {
+        case 40:
+          moveDown();
+          break;
+        case 39:
+          moveSide('right');
+          break;
+        case 37:
+          moveSide('left');
+          break;
+      }
     }
 
   }
@@ -160,12 +201,18 @@
 
   function draw() {
     if (frame % 100 === 0) {
-      moveDown();
+      if (!falling) {
+        spawnBlock();
+      } else {
+        moveDown();
+      }
     }
     clearBoard();
     makeGrid();
     drawLanded();
-    drawBlock(falling['coords'],falling['num']);
+    if (falling) {
+      drawBlock(falling['coords'],falling['num']);
+    }
     frame++;
     requestAnimationFrame(draw);
   }
