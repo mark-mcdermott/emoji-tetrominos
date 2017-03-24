@@ -5,6 +5,7 @@
       ctx = canvas.getContext("2d"),
       canWidth = canvas.width,
       pixel = canWidth / 10.0, // unit for width, 1/10 width of board
+      frame = 0,
       landed = [
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
@@ -78,8 +79,8 @@
     }
   }
 
-  // drops all pieces in array down one pixel
-  function lowerBlocks() {
+  // move the falling block down
+  function moveDown() {
 
     if (falling) {
 
@@ -147,15 +148,26 @@
     }
   }
 
-  var falling = new Block['i'](0,17);
-  //drawBlock(falling['coords']);
+  function processKeystroke(key){
+
+    if (key === 40) {
+      moveDown();
+    }
+
+  }
+
+  var falling = new Block['i'](0,0);
 
   function draw() {
+    if (frame % 100 === 0) {
+      moveDown();
+    }
     clearBoard();
-    lowerBlocks();
     makeGrid();
     drawLanded();
     drawBlock(falling['coords'],falling['num']);
+    frame++;
+    requestAnimationFrame(draw);
   }
 
   draw();
@@ -166,5 +178,9 @@
   }
 
   document.getElementById("next").addEventListener("click", drawOnEvent);
+
+  document.onkeydown = function(e) {
+    processKeystroke(e.keyCode);
+  };
 
 })();
