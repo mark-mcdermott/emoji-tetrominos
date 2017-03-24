@@ -1,0 +1,31 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "gulp build && open index.html && gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcdermottsolutions/tetris.git"
+  },
+  "keywords": [],
+  "author": "Mark Mcdermott",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcdermottsolutions/tetris/issues"
+  },
+  "homepage": "https://github.com/mcdermottsolutions/tetris#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-preset-stage-3": "^6.22.0",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-livereload": "^3.8.1"
+  }
+}
