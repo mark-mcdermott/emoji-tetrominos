@@ -43,6 +43,12 @@
           this.coords = [
             [x,y],[x+1,y],[x+2,y],[x+3,y]
           ];
+          this.positions = [
+            [ [x,y],[x+1,y],[x+2,y],[x+3,y] ],
+            [ [x+1,y-1],[x+1,y],[x+1,y+1],[x+1,y+2] ],
+            [ [x,y],[x,y],[x,y],[x,y] ]
+          ];
+          this.position = 0;
         }
       };
 
@@ -176,13 +182,27 @@
     falling = new Block['i'](0,0);
   }
 
+  function rotate(x,y) {
+    falling.position++;
+    console.log(falling.position);
+    var position = falling.position;
+    for (var i=0; i<falling.num; i++) {
+      var newX = falling['positions'][position][i][0];
+      var newY = falling['positions'][position][i][1];
+      falling['coords'][i][0] = newX;
+      falling['coords'][i][1] = newY;
+    }
+  }
+
   function processKeystroke(key){
 
-    // console.log(key);
+    console.log(key);
 
     // move block keyboard input
     if (falling) {
       switch (key) {
+        case 38:
+          rotate(falling['coords'][0][0],falling['coords'][0][1]);
         case 40:
           moveDown();
           break;
