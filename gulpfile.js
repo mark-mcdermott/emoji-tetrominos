@@ -44,6 +44,9 @@ gulp.task(TASKS.BUILD, [ TASKS.CLEAN ], function() {
       insertGlobals : true,
       debug : true
     }))
+    .on('error', ({ stack }) =>
+      console.error(stack)
+    )
     .pipe(
       babel({ presets: [ 'stage-3' ] })
     )
