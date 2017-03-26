@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "gulp build && open index.html && gulp",
+    "start": "gulp build && open index.html && gulp watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
