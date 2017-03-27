@@ -60,16 +60,17 @@ module.exports = class Block {
     };
   }
 
-  // // helper function for getting block's current coordinates
-  // getCoords(x, y, rotation)
-  // {
-  //   //console.log(rotation);
-  //   let coords = [];
-  //   for (let points of rotation)
-  //   {
-  //     coords.push(points);
-  //   }
-  //   return coords;
-  // }
+  // init I block (needs its initial coords)
+  _initO(x, y)
+  {
+    this.height = 2;       // I block height (for floor/block collision)
+    this.width = 2;        // I block width (for wall collision)
+    this.numPix = 4;       // num pixels in I block
+    this.curRotation = 0;  // current pos in rotations array
+    this.coords = [ [ x, y ], [ x + 1, y ], [ x, y + 1 ], [ x + 1, y + 1 ] ];
+    this.rotate = function() {
+      // no rotation on O block;
+    };
+  }
 
 };

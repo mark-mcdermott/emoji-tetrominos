@@ -13,7 +13,7 @@ let block = require("./block.js");
 
       // frame counter (needed for block entrance timing)
     let frame = 0,
-      falling,
+      fallingBlock,
 
       // 2d array of board layout for keeping track
       // of all "landed" blocks.
@@ -85,11 +85,11 @@ let block = require("./block.js");
   // move the falling block down
   function moveDown() {
 
-    if (falling) {
+    if (fallingBlock) {
 
       // lower the block
-      for (let i=0; i<falling.coords.length; i++) {
-        falling['coords'][i][1]++;
+      for (let i=0; i<fallingBlock.coords.length; i++) {
+        fallingBlock['coords'][i][1]++;
       }
       // for (let i=0; i<falling.coords.length; i++) {
       //   falling['coords'][i][1]++;
@@ -97,37 +97,37 @@ let block = require("./block.js");
 
       // check if block is touching bottom now
       var touchingFloor = false;
-      for (let i=0; i<falling.coords.length && touchingFloor===false; i++) {
-        if (falling['coords'][i][1] === 19) {
+      for (let i=0; i<fallingBlock.coords.length && touchingFloor===false; i++) {
+        if (fallingBlock['coords'][i][1] === 19) {
           touchingFloor = true;
         }
       }
 
       // if at floor or , add block's pixels to landed array
       if (touchingFloor) {
-        for (let coords of falling.coords) {
+        for (let coords of fallingBlock.coords) {
           const [ x, y ] = coords;
           landed[y][x] = 1;
         }
-        falling = null;
+        fallingBlock = null;
       } else {
 
         // check if touching another block
         // (this approach to collision detection from https://gamedevelopment.tutsplus.com/tutorials/implementing-tetris-collision-detection--gamedev-852 )
         let collision = false;
-        for (let coords of falling.coords) {
+        for (let coords of fallingBlock.coords) {
           const [ x, y ] = coords;
           if (landed[ y + 1 ][ x ] === 1) {
             collision = true;
           }
 
           if (collision) {
-            for (let coords of falling.coords) {
+            for (let coords of fallingBlock.coords) {
               const [ x, y ] = coords;
               landed[y][x] = 1;
             }
             //falling = new Block['i'](0,0);
-            falling = null;
+            fallingBlock = null;
             return;
           }
         }
@@ -139,22 +139,53 @@ let block = require("./block.js");
 
     if (direction === 'left') {
       // if not at left edge, move left
-      let firstPixel = falling['coords'][0];
+      let firstPixel = fallingBlock['coords'][0];
       if (firstPixel[0] > 0) {
-        for (let i=0; i<falling.coords.length; i++) {
-          falling['coords'][i][0]--;
+
+        // check if touching another block
+        // (this approach to collision detection from https://gamedevelopment.tutsplus.com/tutorials/implementing-tetris-collision-detection--gamedev-852 )
+        let collision = false;
+        for (let coords of fallingBlock.coords) {
+          console.log(fallingBlock.coords);
+          const [ x, y ] = coords;
+          if (landed[ y ][ x - 1 ] === 1) {
+            collision = true;
+          }
         }
+
+        if (!collision) {
+
+          for (let i=0; i<fallingBlock.coords.length; i++) {
+            fallingBlock['coords'][i][0]--;
+          }
+
+        }
+
       }
     }
 
     if (direction === 'right') {
       // if not at right edge, move right
-      let length = falling.coords.length;
-      let lastPixel = falling['coords'][length-1];
+      let length = fallingBlock.coords.length;
+      let lastPixel = fallingBlock['coords'][length-1];
       if (lastPixel[0] < 9) {
-        for (let i=0; i<falling.coords.length; i++) {
-          falling['coords'][i][0]++;
+
+        // check if touching another block
+        // (this approach to collision detection from https://gamedevelopment.tutsplus.com/tutorials/implementing-tetris-collision-detection--gamedev-852 )
+        let collision = false;
+        for (let coords of fallingBlock.coords) {
+          const [ x, y ] = coords;
+          if (landed[ y ][ x + 1 ] === 1) {
+            collision = true;
+          }
         }
+
+        if (!collision) {
+          for (let i=0; i<fallingBlock.coords.length; i++) {
+            fallingBlock['coords'][i][0]++;
+          }
+        }
+
       }
     }
 
@@ -163,12 +194,12 @@ let block = require("./block.js");
   // rotate block
   function rotate() {
     // todo: add collision detection
-    falling.rotate();
+    fallingBlock.rotate();
   }
 
   // clear the whole board each frame to redraw all pieces in new pos
   function clearBoard() {
-    ctx.clearRect(0,0,10*pixel,20*pixel);
+    ctx.clearRect(0, 0, 10 * pixel, 20 * pixel);
   }
 
   // draw all pieces that have hit the bottom
@@ -188,16 +219,36 @@ let block = require("./block.js");
   //        so not over either edge)
   // this falling var couldn't be seen by the other functions
   // (scoping issues), so scrapping for now...
-  // function spawnBlock() {
-  //   falling = new Block('i', 0, 0);
-  // }
+  function spawnBlock() {
+
+    let blockType;
+    let x;
+    const numBlock = Math.floor(Math.random() * 2);
+
+    switch (numBlock) {
+
+      case 0:
+        blockType = 'i';
+        x = Math.floor(Math.random() * (10 - 3));
+        break;
+
+      case 1:
+        blockType = 'o';
+        x = Math.floor(Math.random() * (10 - 2));
+        break;
+
+    }
+
+    const y = 0;
+    fallingBlock = new block(blockType, x, y);
+  }
 
 
 
   // process all keystrokes
   function processKeystroke(key) {
 
-    if (!falling) {
+    if (!fallingBlock) {
       return;
     }
 
@@ -228,8 +279,8 @@ let block = require("./block.js");
   // main draw loop (calls itself recursively at end)
   function draw() {
     if (frame % 100 === 0) {
-      if (!falling) {
-        falling = new block('i', 0, 0);
+      if (!fallingBlock) {
+        spawnBlock();
       } else {
         moveDown();
       }
@@ -237,8 +288,8 @@ let block = require("./block.js");
     clearBoard();
     makeGrid();
     drawLanded();
-    if (falling) {
-      drawBlock(falling['coords'],falling['numPix']);
+    if (fallingBlock) {
+      drawBlock(fallingBlock['coords'],fallingBlock['numPix']);
     }
     frame++;
     requestAnimationFrame(draw);
@@ -259,7 +310,8 @@ let block = require("./block.js");
 
 
 
-  falling = new block('i', 0, 0);  // drop first block
+  //fallingBlock = new block('i', 0, 0);  // drop first block
+  spawnBlock();
   draw();  // call main draw loop
 
 
