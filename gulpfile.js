@@ -51,7 +51,7 @@ gulp.task(TASKS.BUILD, [ TASKS.CLEAN ], function() {
       babel({ presets: [ 'stage-3' ] })
     )
     .pipe(concat('app.js'))
-    .pipe(gulp.dest(buildDir))
+    .pipe(gulp.dest(buildDir)) 
     .pipe(lreload());
 });
 
@@ -70,6 +70,3 @@ gulp.task(TASKS.WATCH, function() {
 
 // The main task executed when running command: `gulp`
 gulp.task('default', [ TASKS.BUILD, TASKS.WATCH ]);
-
-
-
