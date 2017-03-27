@@ -1,6 +1,6 @@
-(function(){
+let block = require("./block.js");
 
-  let block = require("./block.js");
+(function(){
 
   // init vars
   const canvas = document.getElementById("canvas"),
@@ -13,6 +13,7 @@
 
       // frame counter (needed for block entrance timing)
   let frame = 0,
+      falling = new block('i', 0, 0),
 
       // 2d array of board layout for keeping track
       // of all "landed" blocks.
@@ -43,7 +44,7 @@
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0]
-      ],
+      ];
 
       // init blocks
 
@@ -181,9 +182,11 @@
   // spawns new block at top
   // (todo: x-pos will be random & will account for block width
   //        so not over either edge)
-  function spawnBlock() {
-    falling = new Block('i', 0, 0);
-  }
+  // this falling var couldn't be seen by the other functions
+  // (scoping issues), so scrapping for now...
+  // function spawnBlock() {
+  //   falling = new Block('i', 0, 0);
+  // }
 
   // WIP block rotation function
   function rotate() {
@@ -233,7 +236,7 @@
   function draw() {
     if (frame % 100 === 0) {
       if (!falling) {
-        spawnBlock();
+        falling = new block('i', 0, 0);
       } else {
         moveDown();
       }
@@ -264,7 +267,7 @@
 
 
   // placeholder starting block for testing
-  var falling = new Block['i'](0,0);
+  falling = new block('i', 0, 0);
 
   // call main draw loop
   draw();
