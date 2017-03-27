@@ -70,16 +70,16 @@ let block = require("./block.js");
 
   // add a numbered grid to board.  for debugging
   function makeGrid() {
-    for (var i=0; i<10; i++) {
+    for (let i=0; i<10; i++) {
       strokeRec(i, 0, 1, 20);
     }
-    for (var i=0; i<20; i++) {
+    for (let i=0; i<20; i++) {
       strokeRec(0, i, 10, 1);
     }
-    for (var i=0; i<20; i++) {
+    for (let i=0; i<20; i++) {
       fillText(i, 0, i);
     }
-    for (var i=1; i<10; i++) {
+    for (let i=1; i<10; i++) {
       fillText(i, i, 0);
     }
   }
@@ -90,13 +90,16 @@ let block = require("./block.js");
     if (falling) {
 
       // lower the block
-      for (var i=0; i<falling.coords.length; i++) {
+      for (let i=0; i<falling.coords.length; i++) {
         falling['coords'][i][1]++;
       }
+      // for (let i=0; i<falling.coords.length; i++) {
+      //   falling['coords'][i][1]++;
+      // }
 
       // check if block is touching bottom now
       var touchingFloor = false;
-      for (var i=0; i<falling.coords.length && touchingFloor===false; i++) {
+      for (let i=0; i<falling.coords.length && touchingFloor===false; i++) {
         if (falling['coords'][i][1] === 19) {
           touchingFloor = true;
         }
@@ -104,28 +107,24 @@ let block = require("./block.js");
 
       // if at floor or , add block's pixels to landed array
       if (touchingFloor) {
-        for (var i=0; i<falling.coords.length; i++) {
-          var x = falling['coords'][i][0];
-          var y = falling['coords'][i][1];
+        for (let coords of falling.coords) {
+          const [ x, y ] = coords;
           landed[y][x] = 1;
         }
-        //falling = new Block['i'](0,0);
         falling = null;
       } else {
 
         // check if touching another block
-        var collision = false;
-        for (var i=0; i<falling.coords.length; i++) {
-          var x = falling['coords'][i][0];
-          var y = falling['coords'][i][1] + 1;
-          if (landed[y][x] === 1) {
+        let collision = false;
+        for (let coords of falling.coords) {
+          const [ x, y ] = coords;
+          if (landed[ y + 1 ][ x ] === 1) {
             collision = true;
           }
 
           if (collision) {
-            for (var i=0; i<falling.coords.length; i++) {
-              var x = falling['coords'][i][0];
-              var y = falling['coords'][i][1];
+            for (let coords of falling.coords) {
+              const [ x, y ] = coords;
               landed[y][x] = 1;
             }
             //falling = new Block['i'](0,0);
@@ -141,9 +140,9 @@ let block = require("./block.js");
 
     if (direction === 'left') {
       // if not at left edge, move left
-      var firstPixel = falling['coords'][0];
+      let firstPixel = falling['coords'][0];
       if (firstPixel[0] > 0) {
-        for (var i=0; i<falling.coords.length; i++) {
+        for (let i=0; i<falling.coords.length; i++) {
           falling['coords'][i][0]--;
         }
       }
@@ -151,10 +150,10 @@ let block = require("./block.js");
 
     if (direction === 'right') {
       // if not at right edge, move right
-      var length = falling.coords.length;
-      var lastPixel = falling['coords'][length-1];
+      let length = falling.coords.length;
+      let lastPixel = falling['coords'][length-1];
       if (lastPixel[0] < 9) {
-        for (var i=0; i<falling.coords.length; i++) {
+        for (let i=0; i<falling.coords.length; i++) {
           falling['coords'][i][0]++;
         }
       }
@@ -170,8 +169,8 @@ let block = require("./block.js");
   // draw all pieces that have hit the bottom
   // (this set grows as new pieces hit the bottom)
   function drawLanded() {
-    for (var i=0; i<landed.length; i++) {
-      for (var j=0; j<landed[i].length; j++) {
+    for (let i=0; i<landed.length; i++) {
+      for (let j=0; j<landed[i].length; j++) {
         if (landed[i][j] === 1) {
           drawPixel(j,i);
         }
@@ -192,10 +191,10 @@ let block = require("./block.js");
   function rotate() {
     falling.position++;
     //console.log(falling.position);
-    var position = falling.position;
-    for (var i=0; i<falling.num; i++) {
-      var newX = falling['positions'][position][i][0];
-      var newY = falling['positions'][position][i][1];
+    let position = falling.position;
+    for (let i=0; i<falling.num; i++) {
+      let newX = falling['positions'][position][i][0];
+      let newY = falling['positions'][position][i][1];
       falling['coords'][i][0] = newX;
       falling['coords'][i][1] = newY;
     }
