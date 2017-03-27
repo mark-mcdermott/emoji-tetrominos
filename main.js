@@ -12,8 +12,8 @@ let block = require("./block.js");
       pixel = canWidth / 10.0;
 
       // frame counter (needed for block entrance timing)
-  let frame = 0,
-      falling = new block('i', 0, 0),
+    let frame = 0,
+      falling,
 
       // 2d array of board layout for keeping track
       // of all "landed" blocks.
@@ -113,6 +113,7 @@ let block = require("./block.js");
       } else {
 
         // check if touching another block
+        // (this approach to collision detection from https://gamedevelopment.tutsplus.com/tutorials/implementing-tetris-collision-detection--gamedev-852 )
         let collision = false;
         for (let coords of falling.coords) {
           const [ x, y ] = coords;
@@ -159,6 +160,12 @@ let block = require("./block.js");
 
   }
 
+  // rotate block
+  function rotate() {
+    // todo: add collision detection
+    falling.rotate();
+  }
+
   // clear the whole board each frame to redraw all pieces in new pos
   function clearBoard() {
     ctx.clearRect(0,0,10*pixel,20*pixel);
@@ -185,18 +192,7 @@ let block = require("./block.js");
   //   falling = new Block('i', 0, 0);
   // }
 
-  // WIP block rotation function
-  function rotate() {
-    falling.curRotation++;
-    //console.log(falling.position);
-    let curRotation = falling.curRotation;
-    for (let i=0; i<falling.numPix; i++) {
-      let newX = falling['rotations'][curRotation][i][0];
-      let newY = falling['rotations'][curRotation][i][1];
-      falling['coords'][i][0] = newX;
-      falling['coords'][i][1] = newY;
-    }
-  }
+
 
   // process all keystrokes
   function processKeystroke(key) {
@@ -209,8 +205,8 @@ let block = require("./block.js");
     switch (key) {
 
       case 38:  // up arrow
-        //rotate(falling['coords'][0][0],falling['coords'][0][1]);
         rotate();
+        break;
       case 40:  // down arrow
         moveDown();
         break;
@@ -224,10 +220,10 @@ let block = require("./block.js");
 
   }
 
-  function drawOnEvent(e) {
-    draw();
-    e.preventDefault();
-  }
+  // function drawOnEvent(e) {
+  //   draw();
+  //   e.preventDefault();
+  // }
 
   // main draw loop (calls itself recursively at end)
   function draw() {
@@ -253,7 +249,7 @@ let block = require("./block.js");
   // event listeners
   // for testing - "next" button below board
   // (make sure moveDown() in draw() is uncommented)
-  document.getElementById("next").addEventListener("click", drawOnEvent);
+  // document.getElementById("next").addEventListener("click", drawOnEvent);
 
   // event listener for all keystrokes
   document.onkeydown = function(e) {
@@ -263,11 +259,8 @@ let block = require("./block.js");
 
 
 
-  // placeholder starting block for testing
-  //falling = new block('i', 0, 0);
-
-  // call main draw loop
-  draw();
+  falling = new block('i', 0, 0);  // drop first block
+  draw();  // call main draw loop
 
 
 
