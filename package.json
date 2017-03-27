@@ -18,7 +18,9 @@
     "url": "https://github.com/mcdermottsolutions/tetris/issues"
   },
   "homepage": "https://github.com/mcdermottsolutions/tetris#readme",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-sourcemaps": "^2.4.1"
+  },
   "devDependencies": {
     "babel-preset-stage-3": "^6.22.0",
     "del": "^2.2.2",

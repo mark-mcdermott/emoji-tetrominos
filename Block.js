@@ -6,7 +6,23 @@
 // First block "pixel" is bottom left pixel.
 // Subsequent ones are calculated from first pixel
 
+function getCoords(x, y, rotation)
+{
+  let coords = [];
+  const rows = rotation.length;
+  const cols = rotation[0].length;
+  for (let row in rows)
+  {
+    for (let col in cols)
+    {
+      coords[col][row] = [ x + col, y + row ];
+    }
+  }
+  return coords;
+}
+
 module.exports = class Block {
+
   constructor(letter, x, y)
   {
     this._letter = letter.toUpperCase();
@@ -15,25 +31,21 @@ module.exports = class Block {
 
   _initI(x, y)
   {
-    this.form = [   // this is the visual layout of this block
-      [ 1, 1, 1, 1 ]
-    ];
     this.height = 1;      // block height (used for floor collision math)
-    this.width = 3;       // block width (used for side wall collision math)
-    this.num = 4;         // this is num pixels in this block, change to numPix i think
-    this.initPos = [ x, y ]; // init block position (eventually may not be necessary)
-    this.coords = [       // block's coordiates.  used for most block movement calculations
-      [ x, y ], [ x + 1, y ], [ x + 2, y ], [ x + 3, y ]
-    ];
+    this.width = 4;       // block width (used for side wall collision math)
+    this.numPix = 4;      // this is num pixels in this block
+    this.rotations = [    // the different possible rotations of this block
 
-    // rotation positions
-    // todo: too many "magic numbers" here, use array forms
-    // to make this visual and so quickly understandable
-    this.positions = [
-      [ [ x , y ], [ x + 1, y ], [ x + 2, y ], [ x + 3, y ] ],
-      [ [ x + 1, y - 1 ], [ x + 1, y ], [ x + 1, y + 1 ], [ x + 1, y + 2 ] ],
-      [ [ x, y ], [ x, y ], [ x, y ], [ x, y ] ]
+      [ [ 1, 1, 1, 1 ] ],
+
+      [ [ 1 ],
+        [ 1 ],
+        [ 1 ],
+        [ 1 ] ]
+
     ];
-    this.position = 0;
+    this.curRotation = 0;
+    this.coords = getCoords(x, y, this.rotations[this.curRotation]);
   }
+
 };

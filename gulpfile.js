@@ -1,5 +1,6 @@
 const gulp = require('gulp');
 const browserify = require('gulp-browserify');
+const sourcemaps = require('gulp-sourcemaps');
 const babel = require('gulp-babel');
 const lreload = require('gulp-livereload');
 const del = require('del');
@@ -40,6 +41,7 @@ gulp.task(TASKS.CLEAN, function() {
 gulp.task(TASKS.BUILD, [ TASKS.CLEAN ], function() {
   // browserify needs a single entry point
   return gulp.src(entryFile)
+    .pipe(sourcemaps.init())
     .pipe(browserify({
       insertGlobals : true,
       debug : true
@@ -51,7 +53,8 @@ gulp.task(TASKS.BUILD, [ TASKS.CLEAN ], function() {
       babel({ presets: [ 'stage-3' ] })
     )
     .pipe(concat('app.js'))
-    .pipe(gulp.dest(buildDir)) 
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(buildDir))
     .pipe(lreload());
 });
 

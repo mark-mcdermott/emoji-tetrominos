@@ -48,8 +48,6 @@ let block = require("./block.js");
 
       // init blocks
 
-
-
   // function defs
   // helper functions - draw boxes & text to correct scale
   function strokeRec(x, y, w, h) {
@@ -62,8 +60,8 @@ let block = require("./block.js");
   function drawPixel(x, y) {
     ctx.fillRect(x * pixel, y * pixel, 1 * pixel, 1 * pixel);
   }
-  function drawBlock(coords, num) {
-    for (let i=0; i<num; i++) {
+  function drawBlock(coords, numPix) {
+    for (let i=0; i<numPix; i++) {
       ctx.fillRect(coords[i][0] * pixel, coords[i][1] * pixel, 1 * pixel, 1 * pixel);
     }
   }
@@ -189,12 +187,12 @@ let block = require("./block.js");
 
   // WIP block rotation function
   function rotate() {
-    falling.position++;
+    falling.curRotation++;
     //console.log(falling.position);
-    let position = falling.position;
-    for (let i=0; i<falling.num; i++) {
-      let newX = falling['positions'][position][i][0];
-      let newY = falling['positions'][position][i][1];
+    let curRotation = falling.curRotation;
+    for (let i=0; i<falling.numPix; i++) {
+      let newX = falling['rotations'][curRotation][i][0];
+      let newY = falling['rotations'][curRotation][i][1];
       falling['coords'][i][0] = newX;
       falling['coords'][i][1] = newY;
     }
@@ -244,7 +242,7 @@ let block = require("./block.js");
     makeGrid();
     drawLanded();
     if (falling) {
-      drawBlock(falling['coords'],falling['num']);
+      drawBlock(falling['coords'],falling['numPix']);
     }
     frame++;
     requestAnimationFrame(draw);
@@ -266,7 +264,7 @@ let block = require("./block.js");
 
 
   // placeholder starting block for testing
-  falling = new block('i', 0, 0);
+  //falling = new block('i', 0, 0);
 
   // call main draw loop
   draw();
