@@ -87,11 +87,6 @@ let block = require("./block.js");
 
     if (fallingBlock) {
 
-      // lower the block
-      for (let i=0; i<fallingBlock.coords.length; i++) {
-        fallingBlock['coords'][i][1]++;
-      }
-
       // check if block is touching bottom now
       var touchingFloor = false;
       for (let i=0; i<fallingBlock.coords.length && touchingFloor===false; i++) {
@@ -100,35 +95,34 @@ let block = require("./block.js");
         }
       }
 
-      // if at floor or , add block's pixels to landed array
-      if (touchingFloor) {
-        for (let coords of fallingBlock.coords) {
-          const [ x, y ] = coords;
-          landed[y][x] = 1;
-        }
-        fallingBlock = null;
-      } else {
-
-        // check if touching another block
-        // (this approach to collision detection from https://gamedevelopment.tutsplus.com/tutorials/implementing-tetris-collision-detection--gamedev-852 )
-        let collision = false;
+      // check if touching another block
+      // (this approach to collision detection from https://gamedevelopment.tutsplus.com/tutorials/implementing-tetris-collision-detection--gamedev-852 )
+      let collision = false;
+      if (!touchingFloor) {
         for (let coords of fallingBlock.coords) {
           const [ x, y ] = coords;
           if (landed[ y + 1 ][ x ] === 1) {
             collision = true;
           }
-
-          if (collision) {
-            for (let coords of fallingBlock.coords) {
-              const [ x, y ] = coords;
-              landed[y][x] = 1;
-            }
-            //falling = new Block['i'](0,0);
-            fallingBlock = null;
-            return;
-          }
         }
       }
+
+      // if at floor or , add block's pixels to landed array
+      if (touchingFloor || collision) {
+        for (let coords of fallingBlock.coords) {
+          const [ x, y ] = coords;
+          landed[y][x] = 1;
+        }
+        fallingBlock = null;
+        return;
+      } else {
+        // lower the block
+        for (let i=0; i<fallingBlock.coords.length; i++) {
+          fallingBlock['coords'][i][1]++;
+        }
+        
+      }
+
     }
   }
 
