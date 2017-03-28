@@ -91,9 +91,6 @@ let block = require("./block.js");
       for (let i=0; i<fallingBlock.coords.length; i++) {
         fallingBlock['coords'][i][1]++;
       }
-      // for (let i=0; i<falling.coords.length; i++) {
-      //   falling['coords'][i][1]++;
-      // }
 
       // check if block is touching bottom now
       var touchingFloor = false;
@@ -146,10 +143,11 @@ let block = require("./block.js");
         // (this approach to collision detection from https://gamedevelopment.tutsplus.com/tutorials/implementing-tetris-collision-detection--gamedev-852 )
         let collision = false;
         for (let coords of fallingBlock.coords) {
-          console.log(fallingBlock.coords);
           const [ x, y ] = coords;
-          if (landed[ y ][ x - 1 ] === 1) {
-            collision = true;
+          if (x > 0) {
+            if (landed[ y ][ x - 1 ] === 1) {
+              collision = true;
+            }
           }
         }
 
@@ -271,20 +269,22 @@ let block = require("./block.js");
 
   }
 
-  // function drawOnEvent(e) {
-  //   draw();
-  //   e.preventDefault();
-  // }
+  function drawOnEvent(e) {
+    draw();
+    e.preventDefault();
+  }
 
   // main draw loop (calls itself recursively at end)
   function draw() {
-    if (frame % 100 === 0) {
+    frame++;
+    if (frame % 125 === 0) {
       if (!fallingBlock) {
         spawnBlock();
       } else {
         moveDown();
       }
     }
+
     clearBoard();
     makeGrid();
     drawLanded();
@@ -300,7 +300,7 @@ let block = require("./block.js");
   // event listeners
   // for testing - "next" button below board
   // (make sure moveDown() in draw() is uncommented)
-  // document.getElementById("next").addEventListener("click", drawOnEvent);
+  document.getElementById("next").addEventListener("click", drawOnEvent);
 
   // event listener for all keystrokes
   document.onkeydown = function(e) {

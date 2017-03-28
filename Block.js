@@ -15,8 +15,8 @@ module.exports = class Block {
   // block constructor (needs block letter & initial coords)
   constructor(letter, x, y)
   {
-    this._letter = letter.toUpperCase();
-    this[`_init${this._letter}`](x, y);
+    this.letter = letter.toUpperCase();
+    this[`_init${this.letter}`](x, y);
   }
 
   // init I block (needs its initial coords)
