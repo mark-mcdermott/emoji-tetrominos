@@ -237,6 +237,40 @@ let block = require("./block.js");
     }
   }
 
+  function drawFallingBlock() {
+    if (fallingBlock) {
+      drawBlock(fallingBlock['coords'],fallingBlock['numPix']);
+    }
+  }
+
+  // check if fallen pieces have reached top
+  // if so clear board
+  function checkFullBoard() {
+    let boardFull = false;
+    for (let i=0; i<10; i++) {
+      if (landed[0][i] === 1) {
+        boardFull = true;
+      }
+    }
+    if (boardFull) {
+      for (let i=0; i<10; i++) {
+        for (let j=0; j<20; j++) {
+          landed[j][i] = 0;
+        }
+      }
+    }
+  }
+
+  function moveDownOrNewBlock() {
+    if (frame % 125 === 0) {
+      if (!fallingBlock) {
+        spawnBlock();
+      } else {
+        moveDown();
+      }
+    }
+  }
+
   // spawns new block at top
   // (todo: x-pos will be random & will account for block width
   //        so not over either edge)
@@ -301,21 +335,12 @@ let block = require("./block.js");
 
   // main draw loop (calls itself recursively at end)
   function draw() {
-    frame++;
-    if (frame % 125 === 0) {
-      if (!fallingBlock) {
-        spawnBlock();
-      } else {
-        moveDown();
-      }
-    }
-
+    moveDownOrNewBlock();
     clearBoard();
     makeGrid();
     drawLanded();
-    if (fallingBlock) {
-      drawBlock(fallingBlock['coords'],fallingBlock['numPix']);
-    }
+    drawFallingBlock();
+    checkFullBoard();
     frame++;
     requestAnimationFrame(draw);
   }
@@ -335,7 +360,7 @@ let block = require("./block.js");
 
 
 
-  //fallingBlock = new block('i', 0, 0);  // drop first block
+  // start game
   spawnBlock();
   draw();  // call main draw loop
 
