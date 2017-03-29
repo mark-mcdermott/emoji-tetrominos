@@ -82,6 +82,35 @@ let block = require("./block.js");
     }
   }
 
+  function checkFullRows() {
+
+    // check for any full rows
+    for (let i=0; i<20; i++) {
+      if (landed[i][0] === 1) {
+        let fullRow = true;
+        for (let j=1; j<10; j++) {
+          if (landed[i][j] === 0) {
+            fullRow = false;
+          }
+        }
+        if (fullRow) {
+          // clear full rows
+          for (let j=0; j<10; j++) {
+            landed[i][j] = 0;
+          }
+          for (let k=i-1; k>=0; k--) {
+            for (let l=0; l<10; l++) {
+              if (landed[k][l] === 1) {
+                landed[k][l] = 0;
+                landed[k+1][l] = 1;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   // move the falling block down
   function moveDown() {
 
@@ -112,6 +141,7 @@ let block = require("./block.js");
         for (let coords of fallingBlock.coords) {
           const [ x, y ] = coords;
           landed[y][x] = 1;
+          checkFullRows();
         }
         fallingBlock = null;
         return;
@@ -120,7 +150,6 @@ let block = require("./block.js");
         for (let i=0; i<fallingBlock.coords.length; i++) {
           fallingBlock['coords'][i][1]++;
         }
-        
       }
 
     }
@@ -138,7 +167,8 @@ let block = require("./block.js");
         let collision = false;
         for (let coords of fallingBlock.coords) {
           const [ x, y ] = coords;
-          if (x > 0) {
+          if ( (x > 0) && ( y >= 0) ) {
+            //console.log(x+','+y+'   '+landed[y]);
             if (landed[ y ][ x - 1 ] === 1) {
               collision = true;
             }
@@ -146,7 +176,6 @@ let block = require("./block.js");
         }
 
         if (!collision) {
-
           for (let i=0; i<fallingBlock.coords.length; i++) {
             fallingBlock['coords'][i][0]--;
           }
@@ -167,8 +196,10 @@ let block = require("./block.js");
         let collision = false;
         for (let coords of fallingBlock.coords) {
           const [ x, y ] = coords;
-          if (landed[ y ][ x + 1 ] === 1) {
-            collision = true;
+          if ( (x < 9) && (y>=0) ) {
+            if (landed[ y ][ x + 1 ] === 1) {
+              collision = true;
+            }
           }
         }
 

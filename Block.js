@@ -33,9 +33,16 @@ module.exports = class Block {
       let x = this.coords[0][0];
       let y = this.coords[0][1];
 
-      // never rotation wall collisions when I is horiz
+      // todo: if I is horiz, check for collision with ceiling!
       // if I is vert, checks for collisions
-      if (this.curRotation === 0 || ( (x > 1) && (x < 9) ) ) {
+
+      // this y value is wrong
+
+      if ( ( this.curRotation === 0 ) && (y < 2) ) {
+        return;
+      }
+
+      if ( (x > 1) && (x < 9) ) {
 
         // advances curRotation (always 0 or 1)
         this.curRotation = (this.curRotation + 1) % 2;
