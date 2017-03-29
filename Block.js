@@ -26,7 +26,7 @@ module.exports = class Block {
     this.width = 3;        // I block width (for wall collision)
     this.numPix = 4;       // num pixels in I block
     this.curRotation = 0;  // current pos in rotations array
-    this.coords = [ [ x, y ], [ x + 1, y ], [ x + 2, y ], [ x + 1, y - 1 ] ];
+    this.coords = [ [ x, y ], [ x + 1, y ], [ x + 2, y ], [ x + 1, y + 1 ] ];
     this.rotate = function() {
 
       // gets current x & y
@@ -41,19 +41,29 @@ module.exports = class Block {
       if ( (x >= 0) && (x < 9) ) {
 
         // advances curRotation (always 0 or 1)
-        this.curRotation = (this.curRotation + 1) % 2;
+        this.curRotation = (this.curRotation + 1) % 4;
 
         // rotates to new curRotation
         switch(this.curRotation) {
 
-          /* vert I block */
+          /* down facing T block */
           case 0:
-            this.coords = [ [ x - 2 , y + 2 ], [ x - 1 , y + 2 ], [ x , y + 2 ], [ x + 1 , y + 2 ] ];
+            this.coords = [ [ x - 1, y - 1 ], [ x , y - 1 ], [ x + 1, y - 1 ], [ x, y ] ];
             break;
 
-          /* horiz I block */
+          /* left facing T block */
           case 1:
-            this.coords = [ [ x + 2, y - 2 ], [ x + 2, y - 1 ], [ x + 2, y ], [ x + 2, y + 1 ] ];
+            this.coords = [ [ x, y ], [ x + 1, y ], [ x + 1, y - 1 ], [ x + 1, y + 1 ] ];
+            break;
+
+          /* up facing T block */
+          case 2:
+            this.coords = [ [ x, y ], [ x + 1, y ], [ x + 1, y - 1 ], [ x + 2, y ] ];
+            break;
+
+          /* right facing T block */
+          case 3:
+            this.coords = [ [ x + 1, y + 1 ], [ x + 1, y ], [ x + 1, y - 1 ], [ x + 2, y ] ];
             break;
 
         }

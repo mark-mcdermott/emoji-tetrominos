@@ -186,6 +186,8 @@ let block = require("./block.js");
     }
 
     if (direction === 'right') {
+
+      // TODO: run this check on every pixel in block, not just last
       // if not at right edge, move right
       let length = fallingBlock.coords.length;
       let lastPixel = fallingBlock['coords'][length-1];
