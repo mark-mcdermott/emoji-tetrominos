@@ -19,6 +19,50 @@ module.exports = class Block {
     this[`_init${this.letter}`](x, y);
   }
 
+  // init T block (needs its initial coords)
+  _initT(x, y)
+  {
+    this.height = 2;       // I block height (for floor/block collision)
+    this.width = 3;        // I block width (for wall collision)
+    this.numPix = 4;       // num pixels in I block
+    this.curRotation = 0;  // current pos in rotations array
+    this.coords = [ [ x, y ], [ x + 1, y ], [ x + 2, y ], [ x + 1, y - 1 ] ];
+    this.rotate = function() {
+
+      // gets current x & y
+      let x = this.coords[0][0];
+      let y = this.coords[0][1];
+
+      // if T is vert, checks for collisions
+      if ( ( this.curRotation === 0 ) && (y < 2) ) {
+        return;
+      }
+
+      if ( (x >= 0) && (x < 9) ) {
+
+        // advances curRotation (always 0 or 1)
+        this.curRotation = (this.curRotation + 1) % 2;
+
+        // rotates to new curRotation
+        switch(this.curRotation) {
+
+          /* vert I block */
+          case 0:
+            this.coords = [ [ x - 2 , y + 2 ], [ x - 1 , y + 2 ], [ x , y + 2 ], [ x + 1 , y + 2 ] ];
+            break;
+
+          /* horiz I block */
+          case 1:
+            this.coords = [ [ x + 2, y - 2 ], [ x + 2, y - 1 ], [ x + 2, y ], [ x + 2, y + 1 ] ];
+            break;
+
+        }
+
+      }
+
+    };
+  }
+
   // init I block (needs its initial coords)
   _initI(x, y)
   {
