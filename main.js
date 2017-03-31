@@ -7,22 +7,31 @@ let block = require("./block.js");
       ctx = canvas.getContext("2d"),
       canWidth = canvas.width,
 
-      // "Pixel" is unit of height/width, 1/10 width of board.
-      // Each block is made of 4 pixels.
-      pixel = canWidth / 10.0;
+      /*
+
+        "Pixel" is unit of height/width, 1/10 width of board.
+        Each block is made of 4 pixels.
+
+      */
 
       // frame counter (needed for block entrance timing)
-    let frame = 0,
+      pixel = canWidth / 10.0;
+      let frame = 0,
       fallingBlock,
 
-      // 2d array of board layout for keeping track
-      // of all "landed" blocks.
-      // Landed blocks are blocks that have hit
-      // the floor or hit other blocks collected at bottom.
-      //
-      // landed array is all 0's to start, since no
-      // blocks have hit the floor.  Every coordinate
-      // with a landed block will gets a 1.
+      /*
+
+        2d array of board layout for keeping track
+        of all "landed" blocks.
+        Landed blocks are blocks that have hit
+        the floor or hit other blocks collected at bottom.
+
+        landed array is all 0's to start, since no
+        blocks have hit the floor.  Every coordinate
+        with a landed block will gets a 1.
+
+      */
+
       landed = [
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
@@ -82,8 +91,8 @@ let block = require("./block.js");
     }
   }
 
-  function checkFullRows() {
-
+  function checkFullRows()
+  {
     // check for any full rows
     for (let i=0; i<20; i++) {
       if (landed[i][0] === 1) {

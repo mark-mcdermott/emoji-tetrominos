@@ -9,6 +9,10 @@
 // Subsequent block coordinates are calculated from first pixel
 // Rotations based on NES Tetris (http://imgur.com/a/IVRrf)
 
+// For collision detection, make first coordinate pair in coords
+// array the block's far left pixel.  Make the last coorinate
+// coordinate pair the far right pixel.
+
 
 module.exports = class Block {
 
@@ -19,6 +23,8 @@ module.exports = class Block {
     this[`_init${this.letter}`](x, y);
   }
 
+
+
   // init T block (needs its initial coords)
   _initT(x, y)
   {
@@ -26,7 +32,7 @@ module.exports = class Block {
     this.width = 3;        // I block width (for wall collision)
     this.numPix = 4;       // num pixels in I block
     this.curRotation = 0;  // current pos in rotations array
-    this.coords = [ [ x, y ], [ x + 1, y ], [ x + 2, y ], [ x + 1, y + 1 ] ];
+    this.coords = [ [ x, y ], [ x + 1, y ], [ x + 1, y + 1 ], [ x + 2, y ] ];
     this.rotate = function() {
 
       // gets current x & y
@@ -34,7 +40,7 @@ module.exports = class Block {
       let y = this.coords[0][1];
 
       // if T is vert, checks for collisions
-      if ( ( this.curRotation === 0 ) && (y < 2) ) {
+      if (this.curRotation === 0 && y < 1) {
         return;
       }
 
@@ -48,7 +54,7 @@ module.exports = class Block {
 
           /* down facing T block */
           case 0:
-            this.coords = [ [ x - 1, y - 1 ], [ x , y - 1 ], [ x + 1, y - 1 ], [ x, y ] ];
+            this.coords = [ [ x - 1, y - 1 ], [ x , y - 1 ], [ x, y ], [ x + 1, y - 1 ] ];
             break;
 
           /* left facing T block */
