@@ -18,6 +18,13 @@ let block = require("./block.js");
       pixel = canWidth / 10.0;
   let frame = 0,
       speed = 125,
+      colorI = '#1abc9c',
+      colorT = '#e67e22',
+      colorO = '#3498db',
+      colorJ = '#e74c3c',
+      colorL = '#9b59b6',
+      colorS = '#f1c40f',
+      colorZ = '#e97066',
       fallingBlock,
 
       /*
@@ -67,7 +74,8 @@ let block = require("./block.js");
     ctx.font="18px Georgia";
     ctx.fillText(text, (x + 0.25) * pixel, (y + 0.75) * pixel);
   }
-  function drawPixel(x, y) {
+  function drawPixel(x, y, color) {
+    ctx.fillStyle = color;
     ctx.fillRect(x * pixel, y * pixel, 1 * pixel, 1 * pixel);
   }
   function drawBlock(coords, numPix, color) {
@@ -163,7 +171,7 @@ let block = require("./block.js");
       if (touchingFloor || collision) {
         for (let coords of fallingBlock.coords) {
           const [ x, y ] = coords;
-          landed[y][x] = 1;
+          landed[y][x] = fallingBlock.letter;
           checkFullRows();
         }
         fallingBlock = null;
@@ -253,10 +261,37 @@ let block = require("./block.js");
   // draw all pieces that have hit the bottom
   // (this set grows as new pieces hit the bottom)
   function drawLanded() {
+    console.log(colorI);
     for (let i=0; i<landed.length; i++) {
       for (let j=0; j<landed[i].length; j++) {
-        if (landed[i][j] === 1) {
-          drawPixel(j,i);
+        if (landed[i][j] !== 0) {
+          let color;
+          console.log(landed[i][j]);
+          switch (landed[i][j]) {
+            case 'I':
+              color = colorI;
+              break;
+            case 'T':
+              color = colorT;
+              break;
+            case 'O':
+              color = colorO;
+              break;
+            case 'S':
+              color = colorS;
+              break;
+            case 'Z':
+              color = colorZ;
+              break;
+            case 'J':
+              color = colorJ;
+              break;
+            case 'L':
+              color = colorL;
+              break;
+          }
+          //console.log(color);
+          drawPixel(j,i,color);
         }
       }
     }
@@ -302,7 +337,7 @@ let block = require("./block.js");
   }
 
   function checkSpeedUp() {
-    console.log(frame, speed);
+    //console.log(frame, speed);
     if (frame % 1000 === 0) {
       if (speed > 49) {
         speed -= 25;
