@@ -16,7 +16,8 @@ let block = require("./block.js");
 
       // frame counter (needed for block entrance timing)
       pixel = canWidth / 10.0;
-      let frame = 0,
+  let frame = 0,
+      speed = 125,
       fallingBlock,
 
       /*
@@ -69,8 +70,9 @@ let block = require("./block.js");
   function drawPixel(x, y) {
     ctx.fillRect(x * pixel, y * pixel, 1 * pixel, 1 * pixel);
   }
-  function drawBlock(coords, numPix) {
+  function drawBlock(coords, numPix, color) {
     for (let i=0; i<numPix; i++) {
+      ctx.fillStyle = color;
       ctx.fillRect(coords[i][0] * pixel, coords[i][1] * pixel, 1 * pixel, 1 * pixel);
     }
   }
@@ -94,7 +96,10 @@ let block = require("./block.js");
   function checkFullRows()
   {
     // check for any full rows
-    for (let i=0; i<20; i++) {
+    for (let i=19; i>0; i--) {
+      // goes down far left pixel from top of board to bottom
+      // if far left pixel is a landed block, then it checks
+      // that whole row to see if it's a full row ready to clear
       if (landed[i][0] === 1) {
         let fullRow = true;
         for (let j=1; j<10; j++) {
@@ -103,10 +108,19 @@ let block = require("./block.js");
           }
         }
         if (fullRow) {
-          // clear full rows
+          // clear the found full row
           for (let j=0; j<10; j++) {
             landed[i][j] = 0;
           }
+
+          /*
+
+            not positive, but i think there's an
+            intermittant bug here leaving certain
+            pixels floating and not dropping when
+            they should be dropped down one
+
+          */
           for (let k=i-1; k>=0; k--) {
             for (let l=0; l<10; l++) {
               if (landed[k][l] === 1) {
@@ -250,7 +264,11 @@ let block = require("./block.js");
 
   function drawFallingBlock() {
     if (fallingBlock) {
-      drawBlock(fallingBlock['coords'],fallingBlock['numPix']);
+      drawBlock(
+        fallingBlock['coords'],
+        fallingBlock['numPix'],
+        fallingBlock.color
+      );
     }
   }
 
@@ -273,11 +291,27 @@ let block = require("./block.js");
   }
 
   function moveDownOrNewBlock() {
-    if (frame % 125 === 0) {
+    if (frame % (speed / 5) === 0) {
       if (!fallingBlock) {
         spawnBlock();
-      } else {
-        moveDown();
+      }
+    }
+    if (frame % speed === 0) {
+      moveDown();
+    }
+  }
+
+  function checkSpeedUp() {
+    console.log(frame, speed);
+    if (frame % 1000 === 0) {
+      if (speed > 49) {
+        speed -= 25;
+      }
+      if (speed > 10 && speed < 50) {
+        speed -= 5;
+      }
+      if (speed > 1 && speed < 11) {
+        speed -= 1;
       }
     }
   }
@@ -364,16 +398,17 @@ let block = require("./block.js");
 
   }
 
-  function drawOnEvent(e) {
-    draw();
-    e.preventDefault();
-  }
+  // function drawOnEvent(e) {
+  //   draw();
+  //   e.preventDefault();
+  // }
 
   // main draw loop (calls itself recursively at end)
   function draw() {
+    checkSpeedUp();
     moveDownOrNewBlock();
     clearBoard();
-    makeGrid();
+    //makeGrid();
     drawLanded();
     drawFallingBlock();
     checkFullBoard();
@@ -386,7 +421,7 @@ let block = require("./block.js");
   // event listeners
   // for testing - "next" button below board
   // (make sure moveDown() in draw() is uncommented)
-  document.getElementById("next").addEventListener("click", drawOnEvent);
+  //document.getElementById("next").addEventListener("click", drawOnEvent);
 
   // event listener for all keystrokes
   document.onkeydown = function(e) {
