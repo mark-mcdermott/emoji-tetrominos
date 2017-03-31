@@ -274,7 +274,7 @@ let block = require("./block.js");
             case 'T':
               color = colorT;
               break;
-            case 'O':
+            case 'O': 
               color = colorO;
               break;
             case 'S':
