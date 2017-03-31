@@ -23,7 +23,147 @@ module.exports = class Block {
     this[`_init${this.letter}`](x, y);
   }
 
+  // init Z block (needs its initial coords)
+  _initJ(x, y)
+  {
+    this.height = 2;       // I block height (for floor/block collision)
+    this.width = 3;        // I block width (for wall collision)
+    this.numPix = 4;       // num pixels in I block
+    this.curRotation = 0;  // current pos in rotations array
+    this.coords = [ [ x, y ], [ x + 1, y ], [ x + 2, y ], [ x + 2, y + 1 ]  ];
+    this.rotate = function() {
 
+      // gets current x & y
+      let x = this.coords[0][0];
+      let y = this.coords[0][1];
+
+      // if J is vert, checks for collisions
+      if (this.curRotation === 0 && y < 1) {
+        return;
+      }
+
+      if ( (x >= 0) && (x < 9) ) {
+
+        // advances curRotation (always 0 or 1)
+        this.curRotation = (this.curRotation + 1) % 4;
+
+        // rotates to new curRotation
+        switch(this.curRotation) {
+
+          /* down facing J block */
+          case 0:
+            this.coords = [ [ x, y ], [ x, y ], [ x, y ], [ x, y ] ];
+            break;
+
+          /* left facing J block */
+          case 1:
+            this.coords = [ [ x, y + 1 ], [ x + 1, y + 1], [ x + 1, y ], [ x + 1, y - 1 ]  ];
+            break;
+
+          /* up facing J block */
+          case 2:
+            this.coords = [ [ x, y - 2 ], [ x, y - 1 ], [ x + 1, y - 1 ], [ x + 2, y - 1 ]  ];
+            break;
+
+          /* right facing J block */
+          case 3:
+            this.coords = [ [ x + 1, y + 2 ], [ x + 1, y + 1 ], [ x + 1, y ], [ x + 2, y ]  ];
+            break;
+
+        }
+
+      }
+
+    };
+  }
+
+  // init Z block (needs its initial coords)
+  _initZ(x, y)
+  {
+    this.height = 2;       // I block height (for floor/block collision)
+    this.width = 3;        // I block width (for wall collision)
+    this.numPix = 4;       // num pixels in I block
+    this.curRotation = 0;  // current pos in rotations array
+    this.coords = [ [ x, y ], [ x + 1, y ], [ x + 1, y + 1 ], [ x + 2, y + 1 ] ];
+    this.rotate = function() {
+
+      // gets current x & y
+      let x = this.coords[0][0];
+      let y = this.coords[0][1];
+
+      // if Z is vert, checks for collisions
+      if (this.curRotation === 0 && y < 1) {
+        return;
+      }
+
+      if ( (x >= 0) && (x < 9) ) {
+
+        // advances curRotation (always 0 or 1)
+        this.curRotation = (this.curRotation + 1) % 2;
+
+        // rotates to new curRotation
+        switch(this.curRotation) {
+
+          /* down facing Z block */
+          case 0:
+            this.coords = [ [ x - 1, y ], [ x, y ], [ x, y ], [ x + 1, y ] ];
+            break;
+
+          /* vert Z block */
+          case 1:
+            this.coords = [ [ x + 1, y ], [ x + 1, y + 1 ], [ x + 2, y ], [ x + 2, y - 1 ] ];
+            break;
+
+        }
+
+      }
+
+    };
+  }
+
+  // init S block (needs its initial coords)
+  _initS(x, y)
+  {
+    this.height = 2;       // I block height (for floor/block collision)
+    this.width = 3;        // I block width (for wall collision)
+    this.numPix = 4;       // num pixels in I block
+    this.curRotation = 0;  // current pos in rotations array
+    this.coords = [ [ x, y ], [ x + 1, y ], [ x + 1, y - 1 ], [ x + 2, y - 1 ] ];
+    this.rotate = function() {
+
+      // gets current x & y
+      let x = this.coords[0][0];
+      let y = this.coords[0][1];
+
+      // if S is vert, checks for collisions
+      if (this.curRotation === 0 && y < 1) {
+        return;
+      }
+
+      if ( (x >= 0) && (x < 9) ) {
+
+        // advances curRotation (always 0 or 1)
+        this.curRotation = (this.curRotation + 1) % 2;
+
+        // rotates to new curRotation
+        switch(this.curRotation) {
+
+          /* down facing S block */
+          case 0:
+            this.coords = [ [ x - 1, y + 1 ], [ x, y + 1 ], [ x, y ], [ x + 1, y ] ];
+            break;
+
+          /* vert S block */
+          case 1:
+            this.coords = [ [ x + 1, y - 1 ], [ x + 1, y - 2 ], [ x + 2, y - 1 ], [ x + 2, y ] ];
+            break;
+
+        }
+
+      }
+
+    };
+  }
 
   // init T block (needs its initial coords)
   _initT(x, y)
@@ -94,7 +234,8 @@ module.exports = class Block {
       let y = this.coords[0][1];
 
       // if I is vert, checks for collisions
-      if ( ( this.curRotation === 0 ) && (y < 2) ) {
+      if ( ( ( this.curRotation === 0 ) && (y < 2) )
+         || ( (this.curRotation === 1 ) && ( x < 2 ) ) ) {
         return;
       }
 

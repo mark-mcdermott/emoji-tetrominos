@@ -291,7 +291,7 @@ let block = require("./block.js");
 
     let blockType;
     let x;
-    const numBlock = Math.floor(Math.random() * 3);
+    const numBlock = Math.floor(Math.random() * 6);
 
     switch (numBlock) {
 
@@ -307,6 +307,21 @@ let block = require("./block.js");
 
       case 2:
         blockType = 't';
+        x = Math.floor(Math.random() * (10 - 2));
+        break;
+
+      case 3:
+        blockType = 's';
+        x = Math.floor(Math.random() * (10 - 2));
+        break;
+
+      case 4:
+        blockType = 'z';
+        x = Math.floor(Math.random() * (10 - 2));
+        break;
+
+      case 5:
+        blockType = 'j';
         x = Math.floor(Math.random() * (10 - 2));
         break;
 
