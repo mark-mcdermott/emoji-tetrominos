@@ -164,17 +164,20 @@ module.exports = class Block {
         // advances curRotation (always 0 or 1)
         this.curRotation = (this.curRotation + 1) % 2;
 
+        // BUG HERE!
+        console.log(this.curRotation);
+
         // rotates to new curRotation
         switch(this.curRotation) {
 
           /* down facing Z block */
           case 0:
-            this.coords = [ [ x - 1, y ], [ x, y ], [ x, y ], [ x + 1, y ] ];
+            this.coords = [ [ x, y ], [ x - 1, y ], [ x, y + 1 ], [ x + 1, y + 1] ];
             break;
 
           /* vert Z block */
           case 1:
-            this.coords = [ [ x + 1, y ], [ x + 1, y + 1 ], [ x + 2, y ], [ x + 2, y - 1 ] ];
+            this.coords = [ [ x, y ], [ x, y + 1 ], [ x + 1, y ], [ x + 1, y - 1 ] ];
             break;
 
         }

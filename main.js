@@ -67,13 +67,13 @@ let block = require("./block.js");
 
   // function defs
   // helper functions - draw boxes & text to correct scale
-  function strokeRec(x, y, w, h) {
+  /*function strokeRec(x, y, w, h) {
     ctx.strokeRect(x * pixel, y * pixel, w * pixel, h * pixel);
   }
   function fillText(text, x, y) {
     ctx.font="18px Georgia";
     ctx.fillText(text, (x + 0.25) * pixel, (y + 0.75) * pixel);
-  }
+  }*/
   function drawPixel(x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * pixel, y * pixel, 1 * pixel, 1 * pixel);
@@ -86,7 +86,7 @@ let block = require("./block.js");
   }
 
   // add a numbered grid to board.  for debugging
-  function makeGrid() {
+  /*function makeGrid() {
     for (let i=0; i<10; i++) {
       strokeRec(i, 0, 1, 20);
     }
@@ -99,7 +99,7 @@ let block = require("./block.js");
     for (let i=1; i<10; i++) {
       fillText(i, i, 0);
     }
-  }
+  }*/
 
   function checkFullRows()
   {
@@ -148,7 +148,7 @@ let block = require("./block.js");
     if (fallingBlock) {
 
       // check if block is touching bottom now
-      var touchingFloor = false;
+      let touchingFloor = false;
       for (let i=0; i<fallingBlock.coords.length && touchingFloor===false; i++) {
         if (fallingBlock['coords'][i][1] === 19) {
           touchingFloor = true;
@@ -161,7 +161,7 @@ let block = require("./block.js");
       if (!touchingFloor) {
         for (let coords of fallingBlock.coords) {
           const [ x, y ] = coords;
-          if (landed[ y + 1 ][ x ] === 1) {
+          if (landed[ y + 1 ][ x ] !== 0) {
             collision = true;
           }
         }
@@ -171,11 +171,13 @@ let block = require("./block.js");
       if (touchingFloor || collision) {
         for (let coords of fallingBlock.coords) {
           const [ x, y ] = coords;
+          if (y === 0) {
+            return 'boardFull';
+          }
           landed[y][x] = fallingBlock.letter;
-          checkFullRows();
         }
         fallingBlock = null;
-        return;
+        return 'cantMoveDown';
       } else {
         // lower the block
         for (let i=0; i<fallingBlock.coords.length; i++) {
@@ -200,7 +202,7 @@ let block = require("./block.js");
           const [ x, y ] = coords;
           if ( (x > 0) && ( y >= 0) ) {
             //console.log(x+','+y+'   '+landed[y]);
-            if (landed[ y ][ x - 1 ] === 1) {
+            if (landed[ y ][ x - 1 ] !== 0) {
               collision = true;
             }
           }
@@ -230,7 +232,7 @@ let block = require("./block.js");
         for (let coords of fallingBlock.coords) {
           const [ x, y ] = coords;
           if ( (x < 9) && (y>=0) ) {
-            if (landed[ y ][ x + 1 ] === 1) {
+            if (landed[ y ][ x + 1 ] !== 0) {
               collision = true;
             }
           }
@@ -258,39 +260,41 @@ let block = require("./block.js");
     ctx.clearRect(0, 0, 10 * pixel, 20 * pixel);
   }
 
+  function getColor(block) {
+    let color;
+    switch (block) {
+      case 'I':
+        color = colorI;
+        break;
+      case 'T':
+        color = colorT;
+        break;
+      case 'O':
+        color = colorO;
+        break;
+      case 'S':
+        color = colorS;
+        break;
+      case 'Z':
+        color = colorZ;
+        break;
+      case 'J':
+        color = colorJ;
+        break;
+      case 'L':
+        color = colorL;
+        break;
+    }
+    return color;
+  }
+
   // draw all pieces that have hit the bottom
   // (this set grows as new pieces hit the bottom)
   function drawLanded() {
-    console.log(colorI);
     for (let i=0; i<landed.length; i++) {
       for (let j=0; j<landed[i].length; j++) {
         if (landed[i][j] !== 0) {
-          let color;
-          console.log(landed[i][j]);
-          switch (landed[i][j]) {
-            case 'I':
-              color = colorI;
-              break;
-            case 'T':
-              color = colorT;
-              break;
-            case 'O': 
-              color = colorO;
-              break;
-            case 'S':
-              color = colorS;
-              break;
-            case 'Z':
-              color = colorZ;
-              break;
-            case 'J':
-              color = colorJ;
-              break;
-            case 'L':
-              color = colorL;
-              break;
-          }
-          //console.log(color);
+          let color = getColor(landed[i][j]);
           drawPixel(j,i,color);
         }
       }
@@ -299,31 +303,32 @@ let block = require("./block.js");
 
   function drawFallingBlock() {
     if (fallingBlock) {
+      let color = getColor(fallingBlock.letter);
       drawBlock(
         fallingBlock['coords'],
         fallingBlock['numPix'],
-        fallingBlock.color
+        color
       );
     }
   }
 
-  // check if fallen pieces have reached top
-  // if so clear board
-  function checkFullBoard() {
-    let boardFull = false;
-    for (let i=0; i<10; i++) {
-      if (landed[0][i] === 1) {
-        boardFull = true;
-      }
-    }
-    if (boardFull) {
-      for (let i=0; i<10; i++) {
-        for (let j=0; j<20; j++) {
-          landed[j][i] = 0;
-        }
-      }
-    }
-  }
+  // // check if fallen pieces have reached top
+  // // if so clear board
+  // function checkFullBoard() {
+  //   let boardFull = false;
+  //   for (let i=0; i<10; i++) {
+  //     if (landed[0][i] === 1) {
+  //       boardFull = true;
+  //     }
+  //   }
+  //   if (boardFull) {
+  //     for (let i=0; i<10; i++) {
+  //       for (let j=0; j<20; j++) {
+  //         landed[j][i] = 0;
+  //       }
+  //     }
+  //   }
+  // }
 
   function moveDownOrNewBlock() {
     if (frame % (speed / 5) === 0) {
@@ -332,8 +337,11 @@ let block = require("./block.js");
       }
     }
     if (frame % speed === 0) {
-      moveDown();
+      if (moveDown() === 'boardFull') {
+        return 'boardFull';
+      }
     }
+    return 'spawned';
   }
 
   function checkSpeedUp() {
@@ -441,12 +449,18 @@ let block = require("./block.js");
   // main draw loop (calls itself recursively at end)
   function draw() {
     checkSpeedUp();
-    moveDownOrNewBlock();
+    if (moveDownOrNewBlock() === 'boardFull') {
+      speed = 125;
+      for (let i=0; i<10; i++) {
+        for (let j=0; j<20; j++) {
+          landed[j][i] = 0;
+        }
+      }
+    }
     clearBoard();
     //makeGrid();
     drawLanded();
     drawFallingBlock();
-    checkFullBoard();
     frame++;
     requestAnimationFrame(draw);
   }
