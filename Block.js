@@ -164,9 +164,6 @@ module.exports = class Block {
         // advances curRotation (always 0 or 1)
         this.curRotation = (this.curRotation + 1) % 2;
 
-        // BUG HERE!
-        console.log(this.curRotation);
-
         // rotates to new curRotation
         switch(this.curRotation) {
 

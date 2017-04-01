@@ -104,11 +104,11 @@ let block = require("./block.js");
   function checkFullRows()
   {
     // check for any full rows
-    for (let i=19; i>0; i--) {
+    for (let i=0; i<20; i++) {
       // goes down far left pixel from top of board to bottom
       // if far left pixel is a landed block, then it checks
       // that whole row to see if it's a full row ready to clear
-      if (landed[i][0] === 1) {
+      if (landed[i][0] !== 0) {
         let fullRow = true;
         for (let j=1; j<10; j++) {
           if (landed[i][j] === 0) {
@@ -131,9 +131,9 @@ let block = require("./block.js");
           */
           for (let k=i-1; k>=0; k--) {
             for (let l=0; l<10; l++) {
-              if (landed[k][l] === 1) {
+              if (landed[k][l] !== 0) {
+                landed[k+1][l] = landed[k][l];
                 landed[k][l] = 0;
-                landed[k+1][l] = 1;
               }
             }
           }
@@ -457,6 +457,7 @@ let block = require("./block.js");
         }
       }
     }
+    checkFullRows();
     clearBoard();
     //makeGrid();
     drawLanded();
