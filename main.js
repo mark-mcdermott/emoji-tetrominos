@@ -184,8 +184,8 @@ let block = require("./block.js");
           fallingBlock['coords'][i][1]++;
         }
       }
-
     }
+    return 'movedDown';
   }
 
   function moveSide(direction) {
@@ -331,6 +331,7 @@ let block = require("./block.js");
   // }
 
   function moveDownOrNewBlock() {
+    console.log(speed);
     if (frame % (speed / 5) === 0) {
       if (!fallingBlock) {
         spawnBlock();
@@ -348,13 +349,12 @@ let block = require("./block.js");
     //console.log(frame, speed);
     if (frame % 1000 === 0) {
       if (speed > 49) {
+        console.log('a');
         speed -= 25;
       }
       if (speed > 10 && speed < 50) {
+        console.log('b');
         speed -= 5;
-      }
-      if (speed > 1 && speed < 11) {
-        speed -= 1;
       }
     }
   }
@@ -450,6 +450,7 @@ let block = require("./block.js");
   function draw() {
     checkSpeedUp();
     if (moveDownOrNewBlock() === 'boardFull') {
+      //console.log('boardFull: ' + boardFull);
       speed = 125;
       for (let i=0; i<10; i++) {
         for (let j=0; j<20; j++) {
