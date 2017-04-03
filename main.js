@@ -102,6 +102,7 @@ let block = require("./block.js");
   }
   */
 
+  // can copy emoji from http://unicode.org/emoji/charts/full-emoji-list.html#1f600
   function drawText() {
       fillText("😀", 0, 0);
   }
