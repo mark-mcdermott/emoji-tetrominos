@@ -69,11 +69,11 @@ let block = require("./block.js");
   // helper functions - draw boxes & text to correct scale
   /*function strokeRec(x, y, w, h) {
     ctx.strokeRect(x * pixel, y * pixel, w * pixel, h * pixel);
-  }
+  }*/
   function fillText(text, x, y) {
     ctx.font="18px Georgia";
     ctx.fillText(text, (x + 0.25) * pixel, (y + 0.75) * pixel);
-  }*/
+  }
   function drawPixel(x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * pixel, y * pixel, 1 * pixel, 1 * pixel);
@@ -99,7 +99,12 @@ let block = require("./block.js");
     for (let i=1; i<10; i++) {
       fillText(i, i, 0);
     }
-  }*/
+  }
+  */
+
+  function drawText() {
+      fillText("😀", 0, 0);
+  }
 
   function checkFullRows()
   {
@@ -461,6 +466,7 @@ let block = require("./block.js");
     checkFullRows();
     clearBoard();
     //makeGrid();
+    drawText();
     drawLanded();
     drawFallingBlock();
     frame++;
