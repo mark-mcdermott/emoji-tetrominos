@@ -78,10 +78,13 @@ let block = require("./block.js");
     ctx.fillStyle = color;
     ctx.fillRect(x * pixel, y * pixel, 1 * pixel, 1 * pixel);
   }
-  function drawBlock(coords, numPix, color) {
+  function drawBlock(coords, numPix, emoji) {
     for (let i=0; i<numPix; i++) {
-      ctx.fillStyle = color;
-      ctx.fillRect(coords[i][0] * pixel, coords[i][1] * pixel, 1 * pixel, 1 * pixel);
+      //ctx.fillStyle = color;
+      //ctx.fillRect(coords[i][0] * pixel, coords[i][1] * pixel, 1 * pixel, 1 * pixel);
+      drawText(emoji) {
+          fillText(emoji, coords[i][0] * pixel, coords[i][1] * pixel);
+      }
     }
   }
 
@@ -309,11 +312,11 @@ let block = require("./block.js");
 
   function drawFallingBlock() {
     if (fallingBlock) {
-      let color = getColor(fallingBlock.letter);
+      //let color = getColor(fallingBlock.letter);
       drawBlock(
-        fallingBlock['coords'],
-        fallingBlock['numPix'],
-        color
+        fallingBlock.coords,
+        fallingBlock.numPix,
+        fallingBlock.emoji
       );
     }
   }
