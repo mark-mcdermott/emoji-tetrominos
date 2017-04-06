@@ -71,6 +71,7 @@ let block = require("./block.js");
     ctx.strokeRect(x * pixel, y * pixel, w * pixel, h * pixel);
   }*/
   function fillText(text, x, y) {
+    console.log(text,x,y);
     ctx.font="18px Georgia";
     ctx.fillText(text, (x + 0.25) * pixel, (y + 0.75) * pixel);
   }
@@ -82,9 +83,9 @@ let block = require("./block.js");
     for (let i=0; i<numPix; i++) {
       //ctx.fillStyle = color;
       //ctx.fillRect(coords[i][0] * pixel, coords[i][1] * pixel, 1 * pixel, 1 * pixel);
-      drawText(emoji) {
-          fillText(emoji, coords[i][0] * pixel, coords[i][1] * pixel);
-      }
+      // drawText(emoji) {
+      fillText(emoji, coords[i][0] * pixel, coords[i][1] * pixel);
+      //}
     }
   }
 
@@ -340,7 +341,7 @@ let block = require("./block.js");
   // }
 
   function moveDownOrNewBlock() {
-    console.log(speed);
+    //console.log(speed);
     if (frame % (speed / 5) === 0) {
       if (!fallingBlock) {
         spawnBlock();
@@ -358,11 +359,11 @@ let block = require("./block.js");
     //console.log(frame, speed);
     if (frame % 1000 === 0) {
       if (speed > 49) {
-        console.log('a');
+        //console.log('a');
         speed -= 25;
       }
       if (speed > 10 && speed < 50) {
-        console.log('b');
+        //console.log('b');
         speed -= 5;
       }
     }
@@ -470,7 +471,7 @@ let block = require("./block.js");
     checkFullRows();
     clearBoard();
     //makeGrid();
-    drawText();
+    //drawText();
     drawLanded();
     drawFallingBlock();
     frame++;
