@@ -70,11 +70,17 @@ let block = require("./block.js");
   /*function strokeRec(x, y, w, h) {
     ctx.strokeRect(x * pixel, y * pixel, w * pixel, h * pixel);
   }*/
-  function fillText(text, x, y) {
-    console.log(text,x,y);
-    ctx.font="18px Georgia";
-    ctx.fillText(text, (x + 0.25) * pixel, (y + 0.75) * pixel);
-  }
+  // function fillText(text, x, y) {
+  //   //console.log(text,x,y);
+  //   //ctx.fillStyle = color;
+  //   ctx.fillStyle = '#1abc9c';
+  //   ctx.font="18px Georgia";
+  //   //ctx.fillText("text", (x + 0.25) * pixel, (y + 0.75) * pixel);
+  //   //ctx.fillText(text, (0 + 0.25) * pixel, (0 + 0.75) * pixel);
+  //   ctx.fillText(text, (x + 0.25) * pixel, (y + 0.75) * pixel);
+  //   //ctx.strokeRect(x * pixel, y * pixel, w * pixel, h * pixel);
+  //   //ctx.strokeRect(0 * pixel, 0 * pixel, 1 * pixel, 1 * pixel);
+  // }
   function drawPixel(x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * pixel, y * pixel, 1 * pixel, 1 * pixel);
@@ -84,7 +90,11 @@ let block = require("./block.js");
       //ctx.fillStyle = color;
       //ctx.fillRect(coords[i][0] * pixel, coords[i][1] * pixel, 1 * pixel, 1 * pixel);
       // drawText(emoji) {
-      fillText(emoji, coords[i][0] * pixel, coords[i][1] * pixel);
+      ctx.fillStyle = '#1abc9c';
+      ctx.font="18px Georgia";
+      ctx.fillText(emoji, (coords[i][0]) * pixel, (coords[i][1]) * pixel);
+      //fillText(emoji, coords[i][0] * pixel, coords[i][1] * pixel);
+
       //}
     }
   }
@@ -107,9 +117,9 @@ let block = require("./block.js");
   */
 
   // can copy emoji from http://unicode.org/emoji/charts/full-emoji-list.html#1f600
-  function drawText() {
-      fillText("😀", 0, 0);
-  }
+  // function drawText() {
+  //     fillText("😀", 0, 0);
+  // }
 
   function checkFullRows()
   {
@@ -270,32 +280,69 @@ let block = require("./block.js");
     ctx.clearRect(0, 0, 10 * pixel, 20 * pixel);
   }
 
-  function getColor(block) {
-    let color;
+  // function getColor(block) {
+  //   let color;
+  //   switch (block) {
+  //     case 'I':
+  //       color = colorI;
+  //       break;
+  //     case 'T':
+  //       color = colorT;
+  //       break;
+  //     case 'O':
+  //       color = colorO;
+  //       break;
+  //     case 'S':
+  //       color = colorS;
+  //       break;
+  //     case 'Z':
+  //       color = colorZ;
+  //       break;
+  //     case 'J':
+  //       color = colorJ;
+  //       break;
+  //     case 'L':
+  //       color = colorL;
+  //       break;
+  //   }
+  //   return color;
+  // }
+
+  function getEmoji(block) {
+    // let color;
+    let emoji;
     switch (block) {
       case 'I':
-        color = colorI;
+        // color = colorI;
+        emoji = "🚀";
         break;
       case 'T':
-        color = colorT;
+        // color = colorT;
+        emoji = "🚔";
         break;
       case 'O':
-        color = colorO;
+        // color = colorO;
+        emoji = "🍆";
         break;
       case 'S':
-        color = colorS;
+        // color = colorS;
+        emoji = "🐮";
         break;
       case 'Z':
-        color = colorZ;
+        // color = colorZ;
+        emoji = "🚴🏿";
         break;
       case 'J':
-        color = colorJ;
+        // color = colorJ;
+        emoji = "😈";
         break;
       case 'L':
-        color = colorL;
+        // color = colorL;
+        emoji = "😀";
         break;
     }
-    return color;
+    // return color;
+    return emoji;
   }
 
   // draw all pieces that have hit the bottom
@@ -304,8 +351,12 @@ let block = require("./block.js");
     for (let i=0; i<landed.length; i++) {
       for (let j=0; j<landed[i].length; j++) {
         if (landed[i][j] !== 0) {
-          let color = getColor(landed[i][j]);
-          drawPixel(j,i,color);
+          //let color = getColor(landed[i][j]);
+          let emoji = getEmoji(landed[i][j]);
+        //  drawPixel(j,i,color);
+        ctx.fillStyle = '#1abc9c';
+        ctx.font="18px Georgia";
+        ctx.fillText(emoji, j * pixel, i * pixel);
         }
       }
     }
