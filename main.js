@@ -15,16 +15,19 @@ let block = require("./block.js");
       */
 
       // frame counter (needed for block entrance timing)
-      pixel = canWidth / 10.0;
+      // pixel = canWidth / 10.0;
+      pixel = canWidth / 10;
   let frame = 0,
       speed = 125,
-      colorI = '#1abc9c',
-      colorT = '#e67e22',
-      colorO = '#3498db',
-      colorJ = '#e74c3c',
-      colorL = '#9b59b6',
-      colorS = '#f1c40f',
-      colorZ = '#e97066',
+      // fontStyle = "18px Georgia",
+      fontStyle = "30px Georgia",
+      // colorI = '#1abc9c',
+      // colorT = '#e67e22',
+      // colorO = '#3498db',
+      // colorJ = '#e74c3c',
+      // colorL = '#9b59b6',
+      // colorS = '#f1c40f',
+      // colorZ = '#e97066',
       fallingBlock,
 
       /*
@@ -81,17 +84,17 @@ let block = require("./block.js");
   //   //ctx.strokeRect(x * pixel, y * pixel, w * pixel, h * pixel);
   //   //ctx.strokeRect(0 * pixel, 0 * pixel, 1 * pixel, 1 * pixel);
   // }
-  function drawPixel(x, y, color) {
-    ctx.fillStyle = color;
-    ctx.fillRect(x * pixel, y * pixel, 1 * pixel, 1 * pixel);
-  }
+  // function drawPixel(x, y, color) {
+  //   ctx.fillStyle = color;
+  //   ctx.fillRect(x * pixel, y * pixel, 1 * pixel, 1 * pixel);
+  // }
   function drawBlock(coords, numPix, emoji) {
     for (let i=0; i<numPix; i++) {
       //ctx.fillStyle = color;
       //ctx.fillRect(coords[i][0] * pixel, coords[i][1] * pixel, 1 * pixel, 1 * pixel);
       // drawText(emoji) {
-      ctx.fillStyle = '#1abc9c';
-      ctx.font="18px Georgia";
+      //ctx.fillStyle = '#1abc9c';
+      ctx.font=fontStyle;
       ctx.fillText(emoji, (coords[i][0]) * pixel, (coords[i][1]) * pixel);
       //fillText(emoji, coords[i][0] * pixel, coords[i][1] * pixel);
 
@@ -354,8 +357,8 @@ let block = require("./block.js");
           //let color = getColor(landed[i][j]);
           let emoji = getEmoji(landed[i][j]);
         //  drawPixel(j,i,color);
-        ctx.fillStyle = '#1abc9c';
-        ctx.font="18px Georgia";
+        //ctx.fillStyle = '#1abc9c';
+        ctx.font=fontStyle;
         ctx.fillText(emoji, j * pixel, i * pixel);
         }
       }
