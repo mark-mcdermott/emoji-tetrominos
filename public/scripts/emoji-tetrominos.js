@@ -2163,6 +2163,6 @@
         draw(); // call main draw loop
 
       })();
-    }).call(this, require("pBGvAp"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/fake_e12e8b75.js", "/");
+    }).call(this, require("pBGvAp"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/fake_f893d080.js", "/");
   }, { "./block.js": 5, "buffer": 2, "pBGvAp": 4 }] }, {}, [6]);
 //# sourceMappingURL=emoji-tetrominos.js.map
