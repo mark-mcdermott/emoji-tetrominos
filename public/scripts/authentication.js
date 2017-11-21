@@ -14,7 +14,7 @@ window.addEventListener('load', function() {
     leeway: 60
   });
 
-  var loginStatus = document.querySelector('.container h4');
+  var loginStatus = document.getElementById('login-status');
   var loginView = document.getElementById('login-view');
   var homeView = document.getElementById('home-view');
 
