@@ -7,7 +7,7 @@
 // Blocks are made of 4 "pixels"
 // First block "pixel" is top left pixel
 // Subsequent block coordinates are calculated from first pixel
-// Rotations based on NES Tetris (http://imgur.com/a/IVRrf)
+// Rotations based on NES controls (http://imgur.com/a/IVRrf)
 
 // For collision detection, make first coordinate pair in coords
 // array the block's far left pixel.  Make the last coorinate
