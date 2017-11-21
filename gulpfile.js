@@ -8,14 +8,14 @@ const concat = require('gulp-concat');
 
 
 // Some project paths
-const entryFile = './main.js';
+const entryFile = './src/emoji-tetrominos.js';
 const filesToWatch = [
   './*.js',
   './**/*.js',
   '!./build/**/*',
   '!./node_modules/**/*'
 ];
-const buildDir = './build';
+const buildDir = './public/scripts';
 
 
 
@@ -29,7 +29,7 @@ const TASKS = { BUILD: 'build', CLEAN: 'clean', WATCH: 'watch' };
 
 */
 gulp.task(TASKS.CLEAN, function() {
-  return del.sync([ `${buildDir}/*` ]);
+  return del.sync([ `${buildDir}/emoji-tetrominos.*` ]);
 });
 
 
@@ -52,7 +52,7 @@ gulp.task(TASKS.BUILD, [ TASKS.CLEAN ], function() {
     .pipe(
       babel({ presets: [ 'stage-3' ] })
     )
-    .pipe(concat('app.js'))
+    .pipe(concat('emoji-tetrominos.js'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(buildDir))
     .pipe(lreload());

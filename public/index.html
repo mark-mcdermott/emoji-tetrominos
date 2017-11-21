@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Login</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div id="loading">
+    <img src="images/loading.svg" alt="Loading spinner">
+  </div>
+
+  <div class="content">
+
+    <nav class="navbar navbar-default">
+      <div class="container">
+
+          <a class="navbar-brand" href="#">Emoji Tetrominos</a>
+          <!--
+          <button id="btn-home-view" class="btn btn-primary btn-margin">
+              Home
+          </button>
+        -->
+
+            <div class="login-button-wrapper">
+              <button id="btn-login" class="btn btn-primary btn-margin">
+                  Log In
+              </button>
+              <button id="btn-logout" class="btn btn-primary btn-margin">
+                  Log Out
+              </button>
+            </div>
+
+
+      </div>
+    </nav>
+
+    <!-- auth0 example boilerplate stuff -->
+    <main class="container">
+      <div id="home-view">
+        <p id="login-status"></p>
+      </div>
+    </main>
+    <!-- end auth0 example boilerplate stuff -->
+
+    <canvas id="canvas" width="300" height="573">
+      Your browser does not support the HTML5 canvas tag.
+    </canvas>
+    <p>instructions: arrow keys move left, right and down.  Up arrow rotates block.</p>
+    <!-- <a href="#" id="next">next</a> -->
+
+  </div> <!-- .content -->
+
+  <script src="scripts/emoji-tetrominos.js"></script>
+  <script src="scripts/auth0.js"></script>
+  <script src="scripts/auth0-variables.js"></script>
+  <script src="scripts/authentication.js"></script>
+</body>
+</html>

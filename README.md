@@ -5,8 +5,7 @@ Built with HTML Canvas and javascript.  Using Express, Auth0, Gulp & Babel.
 
 ## instructions
 1) run `npm install`
-2) run `gulp`.  This compiles the combined, working js file.
-3) run `npm start`.  Then go to localhost:3000
+2) run `node app.js`.  
+3) Go to localhost:8000
 
-![screenshot](/screenshot-small.png)
-
+![screenshot](public/images/screenshot-small.png)
