@@ -89,7 +89,7 @@ window.addEventListener('load', function() {
       loginBtn.style.display = 'inline-block';
       logoutBtn.style.display = 'none';
       loginStatus.innerHTML =
-        'You are not logged in! Please log in to continue.';
+        'Log in to have your scores<br>added to the leaderboard';
     }
   }
 
