@@ -39,7 +39,8 @@ let block = require("./block.js");
 
         landed array is all 0's to start, since no
         blocks have hit the floor.  Every coordinate
-        with a landed block will gets a 1.
+        with a landed block will have that
+        block's letter.
 
       */
 
