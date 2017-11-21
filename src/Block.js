@@ -91,7 +91,7 @@ module.exports = class Block {
     this.width = 3;        // J block width (for wall collision)
     this.numPix = 4;       // num pixels in J block
     this.curRotation = 0;  // current pos in rotations array
-    this.emoji = "😈";
+    this.emoji = "💩";
     this.coords = [ [ x, y ], [ x + 1, y ], [ x + 2, y ], [ x + 2, y + 1 ]  ];
     this.rotate = function() {
 
@@ -149,7 +149,7 @@ module.exports = class Block {
     this.width = 3;        // Z block width (for wall collision)
     this.numPix = 4;       // num pixels in Z block
     this.curRotation = 0;  // current pos in rotations array
-    this.emoji = "🚴🏿";
+    this.emoji = "🐶";
     this.coords = [ [ x, y ], [ x + 1, y ], [ x + 1, y + 1 ], [ x + 2, y + 1 ] ];
     this.rotate = function() {
 

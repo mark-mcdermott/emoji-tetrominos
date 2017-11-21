@@ -333,11 +333,11 @@ let block = require("./block.js");
         break;
       case 'Z':
         // color = colorZ;
-        emoji = "🚴🏿";
+        emoji = "🐶";
         break;
       case 'J':
         // color = colorJ;
-        emoji = "😈";
+        emoji = "💩";
         break;
       case 'L':
         // color = colorL;

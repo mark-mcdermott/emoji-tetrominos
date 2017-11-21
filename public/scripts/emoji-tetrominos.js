@@ -1405,7 +1405,7 @@
           this.width = 3; // J block width (for wall collision)
           this.numPix = 4; // num pixels in J block
           this.curRotation = 0; // current pos in rotations array
-          this.emoji = "😈";
+          this.emoji = "💩";
           this.coords = [[x, y], [x + 1, y], [x + 2, y], [x + 2, y + 1]];
           this.rotate = function () {
 
@@ -1457,7 +1457,7 @@
           this.width = 3; // Z block width (for wall collision)
           this.numPix = 4; // num pixels in Z block
           this.curRotation = 0; // current pos in rotations array
-          this.emoji = "🚴🏿";
+          this.emoji = "🐶";
           this.coords = [[x, y], [x + 1, y], [x + 1, y + 1], [x + 2, y + 1]];
           this.rotate = function () {
 
@@ -1952,11 +1952,11 @@
               break;
             case 'Z':
               // color = colorZ;
-              emoji = "🚴🏿";
+              emoji = "🐶";
               break;
             case 'J':
               // color = colorJ;
-              emoji = "😈";
+              emoji = "💩";
               break;
             case 'L':
               // color = colorL;
@@ -2163,6 +2163,6 @@
         draw(); // call main draw loop
 
       })();
-    }).call(this, require("pBGvAp"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/fake_f893d080.js", "/");
+    }).call(this, require("pBGvAp"), typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}, require("buffer").Buffer, arguments[3], arguments[4], arguments[5], arguments[6], "/fake_160ec0ad.js", "/");
   }, { "./block.js": 5, "buffer": 2, "pBGvAp": 4 }] }, {}, [6]);
 //# sourceMappingURL=emoji-tetrominos.js.map
